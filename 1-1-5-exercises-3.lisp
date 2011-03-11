@@ -4,14 +4,27 @@
     #t
     actual))
 
+(define (larger x y)
+  (if (> x y)
+    x
+    y))
+
+(define (smaller x y)
+  (if (< x y)
+    x
+    y))
+
+(define (square x)
+  (* x x))
+
+(define (sum-of-squares x y)
+  (+ (square x) (square y)))
+
 (define (largest-two-squared-and-summed a b c)
-  (define (square x) (* x x))
-  (if (>= a b)
-       (+ (square a) (square b))
-       (+ (square b) (square c))))
+  (sum-of-squares (larger a b) (larger (smaller a b) c)))
 
 (assert-equal 0 (largest-two-squared-and-summed 0 0 0))
 (assert-equal 1 (largest-two-squared-and-summed 1 0 0))
 (assert-equal 2 (largest-two-squared-and-summed 1 1 0))
 (assert-equal 2 (largest-two-squared-and-summed 0 1 1))
-;;(assert-equal 5 (largest-two-squared-and-summed 2 0 1))
+(assert-equal 2 (largest-two-squared-and-summed 1 0 1))
