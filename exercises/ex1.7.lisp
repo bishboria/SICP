@@ -40,3 +40,12 @@
 ;; this solution improves the answer for numbers < 1.0
 
 (sqrt 0.002)
+
+(define (good-enough? guess x)
+  (< (abs (- (improve guess x) guess))
+     (abs (* guess 0.001))))
+;; this solution improves the answer for small and large numbers (although the original solution
+;; gives better results for large numbers. reducing the tolerance in good-enough? increases the
+;; for both small and large numbers).
+
+(sqrt 0.002)
