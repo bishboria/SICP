@@ -11,3 +11,4 @@
   (try first-guess))
 
 (define golden-ratio (fixed-point (lambda (y) (+ 1 (/ 1 y))) 1.0))
+golden-ratio
