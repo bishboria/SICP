@@ -1,10 +1,3 @@
-(define (midpoint-segment segment)
-  (define mid-x (average (x-point (start-segment segment))
-                         (x-point (end-segment segment))))
-  (define mid-y (average (y-point (start-segment segment))
-                         (y-point (end-segment segment))))
-  (make-point mid-x mid-y))
-
 (define (make-segment start-point end-point)
   (cons start-point end-point))
 
@@ -34,6 +27,15 @@
   (display ",")
   (display (y-point p))
   (display ")"))
+
+(define (midpoint-segment segment)
+  (define a (start-segment segment))
+  (define b (end-segment segment))
+  (define mid-x (average (x-point a)
+                         (x-point b)))
+  (define mid-y (average (y-point a)
+                         (y-point b)))
+  (make-point mid-x mid-y))
 
 (define point-1 (make-point 0 0))
 (define point-2 (make-point 2 3))
