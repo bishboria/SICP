@@ -50,3 +50,27 @@ one-through-four
     list2
     (cons (car list1) (append (cdr list1) list2))))
 (append (list 1 2 3 4) (list 7 8 9 0))
+
+;; scaling a list
+(define (scale-list items factor)
+  (if (null? items)
+    '()
+    (cons (* (car items) factor)
+          (scale-list (cdr items) factor))))
+(scale-list (list 1 2 3 4 5) 10)
+
+;; map
+(define (map proc items)
+  (if (null? items)
+    '()
+    (cons (proc (car items))
+          (map proc (cdr items)))))
+(map abs (list -10 2.5 -11.6 17))
+(map (lambda (x) (* x x))
+     (list 1 2 3 4))
+
+;; redefined scale-list using map
+(define (scale-list items factor)
+  (map (lambda (x) (* x factor))
+       items))
+(scale-list (list 2 3 5 7 11 13) 17)
