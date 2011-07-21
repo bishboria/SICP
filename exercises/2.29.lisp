@@ -20,8 +20,13 @@
 (define (branch-structure branch)
   (car (cdr branch)))
 
-(define (structure-is-a-mobile? structure)
+;; Extracting method to raise structure-is-a-mobile? one
+;; level up in the function heirarchy in terms of knowledge of impl
+(define (has-branches? structure)
   (pair? structure))
+
+(define (structure-is-a-mobile? structure)
+  (has-branches? structure))
 
 ;; b. use the selectors to produce total-weight function
 (define b1 (make-branch 1 8))
