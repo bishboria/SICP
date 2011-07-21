@@ -30,9 +30,9 @@
 (define b3 (make-branch 4 2))
 (define m2 (make-mobile (make-branch 4 m1) b3))
 
-(define (total-weight structure)
-  (+ (branch-weight (left-branch structure))
-     (branch-weight (right-branch structure))))
+(define (total-weight mobile)
+  (+ (branch-weight (left-branch mobile))
+     (branch-weight (right-branch mobile))))
 
 ;; After several attempts at getting part c. done, total-weight needs to have duplication removed and a new method pulled out.
 (define (branch-weight branch)
