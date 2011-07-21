@@ -41,7 +41,7 @@
     (total-weight structure)
     structure))
 
-(total-weight m2)
+(total-weight m2) ;; -> 14
 
 
 ;; c. design a predicate that tests whether a binary mobile is balanced.
@@ -49,9 +49,9 @@
   (* (branch-length branch)
      (branch-weight branch)))
 
-(torque-applied-to b1)
-(torque-applied-to b2)
-(torque-applied-to b3)
+(torque-applied-to b1) ;; -> 8
+(torque-applied-to b2) ;; -> 8
+(torque-applied-to b3) ;; -> 8
 
 (define (balanced? mobile)
   (if (and (= (torque-applied-to (left-branch mobile))
@@ -65,7 +65,30 @@
   (define structure (branch-structure branch))
   (if (structure-is-a-mobile? structure)
     (balanced? structure)
-    structure))
+    #t))
 
-(branch-balanced? b1)
-(balanced? m1)
+(branch-balanced? b1) ;; a simple weight is balanced -> #t
+(branch-balanced? b2) ;; a simple weight is balanced -> #t
+(balanced? m1) ;; (= 8 8) -> #t
+
+(define b1 (make-branch 1 2))
+(define b2 (make-branch 2 1))
+(define m1 (make-mobile b1 b2))
+(define b3 (make-branch 4 m1))
+(define b4 (make-branch 8 1.5))
+(define m2 (make-mobile b3 b4))
+(define b5 (make-branch 16 m2))
+(define b6 (make-branch 32 2.25))
+(define m3 (make-mobile b5 b6))
+(balanced? m3) ;; -> #t
+
+(define b1 (make-branch 1 2))
+(define b2 (make-branch 2 0.99)) ;; -> this value change causes the imbalance
+(define m1 (make-mobile b1 b2))
+(define b3 (make-branch 4 m1)) 
+(define b4 (make-branch 8 1.495)) ;; -> even though the others cause the rest of the tree to *visually look* balanced as the branch weights/torque are correlated
+(define m2 (make-mobile b3 b4))
+(define b5 (make-branch 16 m2))
+(define b6 (make-branch 32 2.2425))
+(define m3 (make-mobile b5 b6))
+(balanced? m3) ;; -> #f
