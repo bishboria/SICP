@@ -20,6 +20,9 @@
 (define (branch-structure branch)
   (car (cdr branch)))
 
+(define (structure-is-a-mobile? structure)
+  (pair? structure))
+
 ;; b. use the selectors to produce total-weight function
 (define b1 (make-branch 1 8))
 (define b2 (make-branch 2 4))
@@ -28,9 +31,41 @@
 (define m2 (make-mobile (make-branch 4 m1) b3))
 
 (define (total-weight structure)
-  (if (not (pair? structure)) ;; <- This smells of too much knowledge of the internals...
-    structure
-    (+ (total-weight (branch-structure (left-branch structure)))
-       (total-weight (branch-structure (right-branch structure))))))
+  (+ (branch-weight (left-branch structure))
+     (branch-weight (right-branch structure))))
+
+;; After several attempts at getting part c. done, total-weight needs to have duplication removed and a new method pulled out.
+(define (branch-weight branch)
+  (define structure (branch-structure branch))
+  (if (structure-is-a-mobile? structure)
+    (total-weight structure)
+    structure))
 
 (total-weight m2)
+
+
+;; c. design a predicate that tests whether a binary mobile is balanced.
+(define (torque-applied-to branch)
+  (* (branch-length branch)
+     (branch-weight branch)))
+
+(torque-applied-to b1)
+(torque-applied-to b2)
+(torque-applied-to b3)
+
+(define (balanced? mobile)
+  (if (and (= (torque-applied-to (left-branch mobile))
+              (torque-applied-to (right-branch mobile)))
+           (branch-balanced? (left-branch mobile))
+           (branch-balanced? (right-branch mobile)))
+    #t
+    #f))
+
+(define (branch-balanced? branch)
+  (define structure (branch-structure branch))
+  (if (structure-is-a-mobile? structure)
+    (balanced? structure)
+    structure))
+
+(branch-balanced? b1)
+(balanced? m1)
