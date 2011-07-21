@@ -97,3 +97,27 @@
 (define b6 (make-branch 32 2.2425))
 (define m3 (make-mobile b5 b6))
 (balanced? m3) ;; -> #f
+
+
+;; d. How does changing representation affect the rest of the program
+(define (make-mobile left right)
+  (cons left right))
+(define (make-branch length structure)
+  (cons length structure))
+
+;; *only* have to change:
+(define (right-branch mobile)
+  (cdr mobile))
+
+(define (branch-structure branch)
+  (cdr branch))
+
+
+(define b1 (make-branch 1 1))
+(branch-length b1)
+(branch-structure b1)
+(define m1 (make-mobile b1 b1))
+(left-branch m1)
+(right-branch m1)
+(structure-is-a-mobile? m1)
+(balanced? m1)
