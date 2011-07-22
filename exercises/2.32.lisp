@@ -9,9 +9,12 @@
 ;;    append (()) (map ___ (())) = (() (2))
 ;;  append (() (2)) (map ___ (() (2))) = (() (2) (1) (1 2))
 
-;; ___ is the function that takes the first element of a subset passed 
+;; ___ is the function that takes the first element of the subset s passed 
 ;; to the function (rather than just the cdr, like when rest
 ;; is defined in the let block) and cons' it with each element in rest.
+
+;; Because it is recursive, it drills all the way down to the null set first
+;; and appends the results as it comes back up the call chain.
 
 (define (subsets s)
   (if (null? s)
