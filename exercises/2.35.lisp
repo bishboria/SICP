@@ -24,7 +24,7 @@
 (count-leaves t1)
 (count-leaves t2)
 
-;; recursive definition
+;; recursive definition without enumerate-tree
 (define (count-leaves tree)
   (accumulate +
               0
