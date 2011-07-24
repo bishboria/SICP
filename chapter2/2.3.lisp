@@ -111,3 +111,35 @@
               0
               (map salary
                    (filter programmer? records))))
+
+;; Nested Mappings
+(accumulate append
+            '()
+            (map (lambda (i)
+                   (map (lambda (j) (list i j))
+                        (enumerate-interval 1 (- i 1))))
+                 (enumerate-interval 1 10)))
+;; creates list of pairs 1 <= j < i <= 10
+
+(define (flatmap proc seq)
+  (accumulate append '() (map proc seq)))
+
+(define (prime-sum? pair)
+  (prime? (+ (car pair) (cadr pair))))
+(define (prime? n)
+  (define (iter n next)
+    (cond ((= n next) #t)
+          ((= 0 (remainder n next)) #f)
+          (else (iter n (+ next 1)))))
+  (iter n 2))
+
+(define (make-pair-sum pair)
+  (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
+
+(define (prime-sum-pairs n)
+  (map make-pair-sum
+       (filter prime-sum?
+               (flatmap (lambda (i)
+                          (map (lambda (j) (list i j))
+                               (enumerate-interval 1 (- i 1))))
+                        (enumerate-interval 1 n)))))
