@@ -32,10 +32,10 @@
       (below (flip-vert half) half))))
 
 (define (up-split painter n)
-    (if (= n 0)
-          painter
-              (let ((smaller (up-split painter (- n 1))))
-                      (below painter (beside smaller smaller)))))
+  (if (= n 0)
+    painter
+    (let ((smaller (up-split painter (- n 1))))
+      (below painter (beside smaller smaller)))))
 
 ; higher order operations
 (define (square-of-four tl tr bl br)
