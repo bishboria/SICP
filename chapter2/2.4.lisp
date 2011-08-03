@@ -70,3 +70,17 @@
                             (edge1-frame frame))
                 (scale-vect (ycor-vect v)
                             (edge2-frame frame))))))
+
+(define (for-each proc seq)
+  (if (null? seq)
+    #t
+    (begin (proc (car seq))
+           (for-each proc (cdr seq)))))
+
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each
+      (lambda (segment)
+        (draw-line ((frame-coord-map frame) (start-segment segment))
+                   ((frame-coord-map frame) (end-segment segment))))
+      segment-list)))
