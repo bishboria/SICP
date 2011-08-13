@@ -8,14 +8,6 @@
 (define (make-tree entry left right)
   (list entry left right))
 
-(define (lookup given-key set-of-records)
-  (cond ((null? set-of-records) false)
-        ((= given-key (key (entry set-of-records)))
-         (entry set-of-records))
-        ((< given-key (key (entry set-of-records)))
-         (lookup given-key (left-branch set-of-records)))
-        (else (lookup given-key (right-branch set-of-records)))))
-
 (define (list->tree elements)
   (car (partial-tree elements (length elements))))
 
@@ -32,6 +24,14 @@
             (let ((right-tree (car right-result))
                   (remaining-elts (cdr right-result)))
               (cons (make-tree this-entry left-tree right-tree) remaining-elts))))))))
+
+(define (lookup given-key set-of-records)
+  (cond ((null? set-of-records) false)
+        ((= given-key (key (entry set-of-records)))
+         (entry set-of-records))
+        ((< given-key (key (entry set-of-records)))
+         (lookup given-key (left-branch set-of-records)))
+        (else (lookup given-key (right-branch set-of-records)))))
 
 (define ordered-records (list (make-entry 1 'a)
                               (make-entry 2 'b)
