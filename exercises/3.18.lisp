@@ -9,12 +9,12 @@
 
 (define (contains-cycle? x)
   (let ((tracked-pairs '()))
-    (define (internal x)
-      (cond ((null? x) false)
-	    ((memq x tracked-pairs) true)
+    (define (internal y)
+      (cond ((null? y) false)
+	    ((memq y tracked-pairs) true)
 	    (else
-	      (set! tracked-pairs (cons x tracked-pairs))
-	      (internal (cdr x)))))
+	      (set! tracked-pairs (cons y tracked-pairs))
+	      (internal (cdr y)))))
     (internal x)))
 
 (define x (list 'a 'b))
