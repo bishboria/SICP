@@ -3,6 +3,7 @@
     (if record
       (cdr record)
       false)))
+
 (define (assoc key records)
   (cond ((null? records) false)
 	((equal? key (caar records)) (car records))
