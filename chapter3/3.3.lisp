@@ -20,6 +20,7 @@
   (list '*table*))
 
 
+; 2 dimensional version
 (define (lookup-2d key-1 key-2 table)
   (let ((subtable (assoc key-1 (cdr table))))
     (if subtable
@@ -28,3 +29,54 @@
 	  (cdr record)
 	  false))
       false)))
+
+(define (insert! key-1 key-2 value table)
+  (let ((subtable (assoc key-1 (cdr table))))
+    (if subtable
+      (let ((record (assoc key-2 (cdr subtable))))
+	(if record
+	  (set-cdr! record value)
+	  (set-cdr! subtable
+		    (cons (cons key-2 value)
+			  (cdr subtable)))))
+      (set-cdr! table
+		(cons (list key-1
+			    (cons key-2 value))
+		      (cdr table)))))
+  'ok)
+
+; creating a local table
+(define (make-table)
+  (let ((local-table (list '*table*)))
+    (define (lookup key-1 key-2)
+      (let ((subtable (assoc key-1 (cdr local-table))))
+	(if subtable
+	  (let ((record (assoc key-2 (cdr subtable))))
+	    (if record
+	      (cdr record)
+	      false))
+	  false)))
+    (define (insert! key-1 key-2 value)
+      (let ((subtable (assoc key-1 (cdr local-table))))
+	(if subtable
+	  (let ((record (assoc key-2 (cdr subtable))))
+	    (if record
+	      (set-cdr! record value)
+	      (set-cdr! subtable
+			(cons (cons key-2 value)
+			      (cdr subtable)))))
+	  (set-cdr! local-table
+		    (cons (list key-1
+				(cons key-2 value))
+			  (cdr local-table)))))
+      'ok)
+    (define (dispath m)
+      (cond ((eq? m 'lookup-proc) lookup)
+	    ((eq? m 'insert-proc!) insert!)
+	    (else (error "Unknown operation - TABLE" m))))
+    dispath))
+
+; using this we could implement get and put from 2.4.3 as follows:
+(define operation-table (make-table))
+(define get (operation-table 'lookup-proc))
+(define put (operation-table 'insert-proc!))
